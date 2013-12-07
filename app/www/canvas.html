@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>MindSync</title>
+
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+
+    <script type="text/javascript">
+        var html = document.documentElement;
+        var color = "#000000";
+       
+        function getWidth(){
+            document.getElementById("mainCanvas").width = screen.width;
+        }
+
+        function getHeight(){
+            document.getElementById("mainCanvas").height = html.clientHeight - 60;
+        }
+
+        function setLenghts(){
+            getWidth();
+            getHeight();
+        }
+        
+        function canvas(){
+			 var canvas = document.getElementById("mainCanvas");
+        
+			if(canvas && canvas.getContext){
+				var context = canvas.getContext("2d");
+			}
+			if(context){
+				context.fillStyle = color;
+				context.fillRect(0,0,150,100);
+			}
+		}
+
+    </script>
+
+    <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
+  </head>
+  <body onload="setLenghts();canvas();">
+  <div id="container">
+    <canvas id="mainCanvas">
+		Vas prohlizec nepodporuje canvas. Mission failed. :(
+    </canvas>
+
+    <div id="chat">
+        <div id="chat_bar">
+          <div id="chat_bar_content">
+            <h4>Chat:</h4>
+            <textarea id="chat_textarea">Chatting space</textarea>
+            <input type="text" id="chat_input">
+            <button id="chat_send">Send</button>
+          </div>
+        </div>
+        <div id="chat_shadow">
+            <a href="#" onclick="chatToggle(); return false" id="chat_button"><img src="img/message.png" alt="chat" /></a>
+        </div>
+    </div>
+
+    <div id="tools">
+        <div id="tools_shadow">
+            <a href="#" id="tools_button" onclick="toolsToggle(); return false"><img src="img/tuzka.png" alt="tools" /></a>
+        </div>
+        <div id="tools_bar">
+            <table id="tool_table">
+              <tr>
+                <td>
+                  <button><img src="img/tuzka.png" alt="pencil" /></button>
+                </td>
+                <td>
+                  <button><img src="img/stetec.png" alt="brush" /></button>
+                </td>
+              </tr>
+              <tr class="sep">
+                <td>
+                  <button><img src="img/obrazek.png" alt="image" /></button>
+                </td>
+                <td>
+                  <button><img src="img/guma.png" alt="eraser" /></button>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <button><img src="img/ctverec.png" alt="square" /></button>
+                </td>
+                <td>
+                  <button><img src="img/kruh.png" alt="circle" /></button>
+                </td>
+              </tr>
+              <tr class="sep">
+                <td>
+                  <button><img src="img/krychle.png" alt="box" /></button>
+                </td>
+                <td>
+                  <button><img src="img/valec.png" alt="roll" /></button>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <button><img src="img/text.png" alt="text" /></button>
+                </td>
+                <td>
+                  <button><img src="img/sipka.png" alt="arrow" /></button>
+                </td>
+              </tr>
+            </table>
+        </div>
+    </div>
+    <div id="push"></div>
+  </div>
+  <div id="menu" class="color_gradient">
+    <ul id="right_part">
+      <li class="bottom_bar"><a href="#"><img src="img/undo.png" alt="undo" /></a></li>
+      <li class="bottom_bar"><a href="#"><img src="img/redo.png" alt="redo" /></a></li>
+      <li class="bottom_bar"><a href="#"><img src="img/ulozeni.png" alt="save" /></a></li>
+      <li class="bottom_bar"><a href="#"><img src="img/nastaveni.png" alt="settings" /></a></li>
+    </ul>
+    <ul id="left_part">
+      <li class="bottom_bar"><a href="#"><img src="img/no_img.svg" alt="solid line" title="solid line"/></a></li>
+      <li class="bottom_bar"><a href="#"><img src="img/no_img.svg" alt="dotted line" title="dotted line"/></a></li>
+      <li class="bottom_bar"><a href="#"><img src="img/no_img.svg" alt="dashed line" title="dashed line"/></a></li>
+    </ul>
+    <ul id="slider">
+      <li class="bottom_bar"><a href="#"><img src="img/no_img.svg" alt="slider" title="slider"/></a></li>
+    </ul>
+  </div>
+</body>
+</html>

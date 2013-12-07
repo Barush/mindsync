@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.1"
+   height="1000"
+   width="1000"
+   id="svg2"
+   sodipodi:version="0.32"
+   inkscape:version="0.44.1"
+   sodipodi:docname="no sign2.svg"
+   sodipodi:docbase="C:\Documents and Settings\Federico.Cantoni\Desktop">
+  <metadata
+     id="metadata11">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs9" />
+  <sodipodi:namedview
+     inkscape:window-height="573"
+     inkscape:window-width="853"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     guidetolerance="10.0"
+     gridtolerance="10.0"
+     objecttolerance="10.0"
+     borderopacity="1.0"
+     bordercolor="#666666"
+     pagecolor="#ffffff"
+     id="base"
+     inkscape:zoom="0.378"
+     inkscape:cx="500"
+     inkscape:cy="500"
+     inkscape:window-x="88"
+     inkscape:window-y="88"
+     inkscape:current-layer="svg2" />
+  <circle
+     id="circle1877"
+     cy="500"
+     cx="500"
+     r="400"
+     sodipodi:cx="500"
+     sodipodi:cy="500"
+     sodipodi:rx="400"
+     sodipodi:ry="400"
+     transform="translate(-12,8)"
+     style="fill:none;stroke:#c5c5c5;stroke-width:100;stroke-opacity:1" />
+  <path
+     d="M 190,190 L 810,810"
+     id="path6"
+     style="stroke:#c5c5c5;stroke-width:100;stroke-opacity:1" />
+  <circle
+     r="400"
+     cx="500"
+     cy="500"
+     id="circle4"
+     sodipodi:cx="500"
+     sodipodi:cy="500"
+     sodipodi:rx="400"
+     sodipodi:ry="400"
+     style="fill:none;stroke:red;stroke-width:100"
+     transform="translate(52,0)" />
+  <path
+     style="stroke:red;stroke-width:100;stroke-opacity:1"
+     id="path4534"
+     d="M 256,180 L 876,800" />
+</svg>

@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>MindSync</title>
+
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+
+    <script type="text/javascript">
+
+        function escapeHtml(text) {
+          return text
+              .replace(/&/g, "&amp;")
+              .replace(/</g, "&lt;")
+              .replace(/>/g, "&gt;")
+              .replace(/"/g, "&quot;")
+              .replace(/'/g, "&#039;");
+        }
+
+        function setWidth(){
+            document.getElementById("mainCanvas").width = screen.width;
+        }
+
+        function setHeight(){
+            document.getElementById("mainCanvas").height = document.documentElement.clientHeight - 60;
+        }
+
+        function setLenghts(){
+            setWidth();
+            setHeight();
+        }
+
+        function setChatHeight(){
+          document.getElementById("chat_bar_textarea").style.height = (document.getElementById("chat_bar").clientHeight - (10+22+40+15)) + "px";
+        }
+
+        function chatToggle(){
+            console.log(document.getElementById("chat").style.left);
+            if(document.getElementById("chat").style.left == (-1) * (document.getElementById("chat").clientWidth + 1) +"px"){
+                document.getElementById("chat").style.left = "0";    
+            }
+            else {
+                document.getElementById("chat").style.left = (-1) * (document.getElementById("chat").clientWidth + 1) + "px";
+            }
+            
+        }
+
+        function toolsToggle(){
+            console.log(document.getElementById("tools").style.right);
+            if(document.getElementById("tools").style.right == (-1) * (document.getElementById("tools").clientWidth + 1) + "px"){
+                document.getElementById("tools").style.right = "0";    
+            }
+            else {
+                document.getElementById("tools").style.right = (-1) * (document.getElementById("tools").clientWidth + 1) + "px";
+            }
+        }
+
+        function chatKeyPressed(e) {
+            if (e.keyCode == 13) {
+                sendMessage();
+            }
+        }
+
+        function getCurrentUserName() {
+          // TODO
+          return "UserX";
+        }
+
+        function getCurrentUserColor() {
+          // TODO
+          return "blue";
+        }
+
+        function sendMessage() {
+            msg = document.getElementById('chat_input').value;
+            if (msg != "") {
+                msg = escapeHtml(msg);
+                var span_msg = document.createElement('span');
+                span_msg.className = getCurrentUserColor() + "-dark-text";
+                span_msg.innerHTML = getCurrentUserName() + ": ";
+                document.getElementById('chat_bar_textarea').appendChild(span_msg);
+                document.getElementById('chat_bar_textarea').innerHTML += msg + "<br>";
+                document.getElementById('chat_input').value = "";
+                // TODO send msg, ajax - haha... TODO server
+            }
+        }
+        
+        function setUIColor() {
+            color = getCurrentUserColor();
+            document.getElementById('chat_bar').className = color + "-light";
+            document.getElementById('tools_bar').className = color + "-light";
+            document.getElementById('chat_button_img').className = color + "-light";
+            document.getElementById('tools_button_img').className = color + "-light";
+            document.getElementById('menu').className = "color-gradient " + color + "-light";
+        }
+
+        window.onload = function() {
+            setLenghts();
+            setChatHeight();
+            chatToggle();
+            toolsToggle();
+            setUIColor();
+        }
+
+        window.onresize = function(){
+            setChatHeight();
+        }
+
+    </script>
+
+    <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
+  </head>
+  <body>
+  <div id="container">
+    <canvas id="mainCanvas">
+    </canvas>
+
+    <div id="chat">
+        <div id="chat_bar">
+          <h4 id="chat_bar_head">Chat:</h4>
+          <div id="chat_bar_textarea">
+            <span class="green-dark-text">User1: </span>Ahoj lidi!<br>
+            <span class="violet-dark-text">User2: </span>Zdarec<br>
+          </div>
+          <div id="chat_bar_bottom">
+            <input onkeypress="chatKeyPressed(event);" type="text" id="chat_input">
+            <button onclick="sendMessage();" id="chat_send">Send</button>
+          </div>
+        </div>
+        <div id="chat_shadow">
+            <a href="#" onclick="chatToggle();" id="chat_button"><img src="img/message.png" alt="chat" id="chat_button_img"/></a>
+        </div>
+    </div>
+
+    <div id="tools">
+        <div id="tools_shadow">
+            <a href="#" id="tools_button" onclick="toolsToggle();"><img src="img/tuzka.png" alt="tools" id="tools_button_img"/></a>
+        </div>
+        <div id="tools_bar">
+            <table id="tool_table">
+              <tr>
+                <td>
+                  <button><img src="img/tuzka.png" alt="pencil" /></button>
+                </td>
+                <td>
+                  <button><img src="img/stetec.png" alt="brush" /></button>
+                </td>
+              </tr>
+              <tr class="sep">
+                <td>
+                  <button><img src="img/obrazek.png" alt="image" /></button>
+                </td>
+                <td>
+                  <button><img src="img/guma.png" alt="eraser" /></button>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <button><img src="img/ctverec.png" alt="square" /></button>
+                </td>
+                <td>
+                  <button><img src="img/kruh.png" alt="circle" /></button>
+                </td>
+              </tr>
+              <tr class="sep">
+                <td>
+                  <button><img src="img/krychle.png" alt="box" /></button>
+                </td>
+                <td>
+                  <button><img src="img/valec.png" alt="roll" /></button>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <button><img src="img/text.png" alt="text" /></button>
+                </td>
+                <td>
+                  <button><img src="img/sipka.png" alt="arrow" /></button>
+                </td>
+              </tr>
+            </table>
+        </div>
+    </div>
+    <div id="push"></div>
+  </div>
+  <div id="menu" class="color_gradient">
+    <ul id="right_part">
+      <li class="bottom_bar"><a href="#"><img src="img/undo.png" alt="undo" /></a></li>
+      <li class="bottom_bar"><a href="#"><img src="img/redo.png" alt="redo" /></a></li>
+      <li class="bottom_bar"><a href="#"><img src="img/ulozeni.png" alt="save" /></a></li>
+      <li class="bottom_bar"><a href="#"><img src="img/nastaveni.png" alt="settings" /></a></li>
+    </ul>
+    <ul id="left_part">
+      <li class="bottom_bar"><a href="#"><img src="img/cara_stetec_plna.png" alt="solid line" title="solid line"/></a></li>
+      <li class="bottom_bar"><a href="#"><img src="img/cara_stetec_prerusovana.png" alt="dotted line" title="dotted line"/></a></li>
+      <li class="bottom_bar"><a href="#"><img src="img/cara_stetec_teckovana.png" alt="dashed line" title="dashed line"/></a></li>
+    </ul>
+    <ul id="slider">
+      <li class="bottom_bar"><a href="#"><img src="img/no_img.svg" alt="slider" title="slider"/></a></li>
+    </ul>
+  </div>
+</body>
+</html>

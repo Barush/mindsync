@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>MindSync</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+
+    <script type="text/javascript">        
+    function getCanvases(){
+      var address = "http://mindsync-itu.herokuapp.com/";
+
+      canvasCount = 0; //sem se ulozi pocet stazenych platen + vytvori se pole s nazvy platen (na serveru identifikovano indexem v poli)
+      ///document.getElementById("done").setAttribute(disabled, disabled);
+      
+      if(canvasCount > 0){
+        for(var i = 0; i < canvasCount; i++){
+          document.getElementById("sessions").innerHTML += '<option value="'+i+'">Nazev platna</option>'
+        }
+      }
+      else {
+        document.getElementById("sessions").innerHTML = '<option value="none">Žádné plátno není k dispozici</option>'
+      }
+    }
+    
+    function connectToCanvas(){
+      var selected = document.getElementById("sessions")
+      window.alert("Byl vybran canvas " + selected.options[selected.selectedIndex].value);
+      //stahneme ajaxem platna ze serveru a zobrazime to, ktere bylo vybrano...
+    }
+
+    </script>
+
+    <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
+  </head>
+  <body onload="getCanvases()">
+  <div id="container">
+    <div id="selectCanvasPage">
+		  Vyberte si z existujících pláten: <br />
+		  <select id="sessions">
+      </select>
+      <a href="mainpage.html" onclick="">
+        <div id="createButton">
+          <p>Připojit</p>
+        </div>
+      </a>
+    </div>
+  </div>
+</body>
+</html>
