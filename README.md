@@ -1,0 +1,4 @@
+mindsync
+========
+
+Mind Sync application
