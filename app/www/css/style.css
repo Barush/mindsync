@@ -32,6 +32,14 @@ a {
     padding: 0;
 }
 
+#dash-container {
+    min-height: 100%;
+    height: auto !important;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
 /* Set the fixed height of the footer here */
 #push {
     height: 55px;
@@ -56,7 +64,7 @@ a {
 }
 }
 
-#mainCanvas {
+#main-canvas {
   padding: 0;
   margin: 0;
 }
@@ -65,7 +73,7 @@ a {
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0)
 }
 
-.color_gradient {
+.color-gradient {
     border: 1px solid #b2b2b2;
     -webkit-box-shadow: inset 0 1px 1px rgba(255,255,255,0.5);
     box-shadow: inset 0 1px 1px rgba(255,255,255,0.5);
@@ -77,28 +85,28 @@ ul {
     list-style-type: none;
 }
 
-#left_part {
+#left-part {
     float: left;
     border-right: solid 2px Black;
 }
 
-#right_part {
+#right-part {
     float: right;
     border-left: solid 2px Black;
 }   
 
-.bottom_bar {
+.bottom-bar {
     display: inline;
     padding: 14px 18px 0px 12px;
 }
 
-.bottom_bar img {
+.bottom-bar img {
     height: 45px;
     opacity: 0.8;
 }
 
 
-#chat_shadow {
+#chat-shadow {
     position: absolute;
     bottom: 120px;
     left: 100%;
@@ -108,12 +116,12 @@ ul {
     -moz-box-shadow: black 0 2px 12px 0; 
 }
 
-#chat_shadow a {
+#chat-shadow a {
     line-height: 0;
     display: block;
 }
 
-#chat_button_img {
+#chat-button-img {
     height: 45px;
     position: relative;
     padding: 5px;
@@ -136,7 +144,7 @@ ul {
     opacity: 0.8;
 }
 
-#chat_bar {
+#chat-bar {
     height: 60%;
     min-height: 260px;
     max-height: 500px;
@@ -155,19 +163,19 @@ ul {
     -moz-box-shadow: black 0 2px 12px 0; 
 }
 
-#chat_bar_head,
-#chat_bar_textarea,
-#chat_bar_bottom {
+#chat-bar-head,
+#chat-bar-textarea,
+#chat-bar-bottom {
     margin: 0 auto;
     width: 270px;
 }
 
-#chat_bar_head {
+#chat-bar-head {
     position: relative;
     height: 22px;
 }
 
-#chat_bar_textarea {
+#chat-bar-textarea {
     padding: 3px 5px;
     width: 258px;
     margin: 0 auto 3px auto;
@@ -178,11 +186,11 @@ ul {
     background-clip: padding-box;
 }
 
-#chat_bar_bottom {
+#chat-bar-bottom {
     height: 40px;
 }
 
-#chat_input {
+#chat-input {
     width: 67%;
     -webkit-border-radius: 5px;
     border-radius: 5px;
@@ -191,7 +199,7 @@ ul {
     background-clip: padding-box;
 }
 
-#chat_send {
+#chat-send {
     width: 25%;
     float: right;
     -webkit-border-radius: 5px;
@@ -202,7 +210,7 @@ ul {
     background-clip: padding-box;
 }
 
-#tools_shadow {
+#tools-shadow {
     position: absolute;
     bottom: 120px;
     right: 142px;  
@@ -212,12 +220,12 @@ ul {
     -moz-box-shadow: black 0 2px 12px 0; 
 }
 
-#tools_shadow a {
+#tools-shadow a {
     line-height: 0;
     display: block;
 }
 
-#tools_button_img {
+#tools-button-img {
     position: relative;
     height: 45px;
     padding: 5px;
@@ -242,7 +250,7 @@ ul {
     opacity: 0.8;        
 }
 
-#tools_bar {
+#tools-bar {
     width: 142px;
     height: auto;
     position: absolute;
@@ -260,17 +268,17 @@ ul {
     -moz-box-shadow: black 0 2px 12px 0; 
 }
 
-#tool_table {
+#tool-table {
     bottom: 0;
     width: 100%;
     padding: 10px;
 }
 
-#tool_table td {
+#tool-table td {
     padding: 3px;
 }
 
-#tool_table button {
+#tool-table button {
     background-clip: padding-box;
     -webkit-border-radius: 5px;
     border-radius: 5px;
@@ -278,7 +286,7 @@ ul {
     background-color: #e7e7e7;
 }
 
-#tool_table img {
+#tool-table img {
     padding-top: 2px;
     height: 34px;
 }
@@ -353,85 +361,105 @@ ul {
     color: #B37C24;
 }
 
-#createCanvas, #connectCanvas, #createButton {
+#create-canvas, #connect-canvas, #create-button {
     width: 200px;
     height: 200px;
-    background-color: #4d94ff;
-    border-color: solid 1px White;
+    background-color: #3d79df;
+    border: solid 1px #ddd;
     border-radius: 10px;
     box-shadow: black 0 2px 12px 0;
+    background-clip: padding-box;
     -webkit-box-shadow: black 0 2px 12px 0;
     -moz-box-shadow: black 0 2px 12px 0; 
 }
 
-#createCanvas p {
+#create-canvas p {
     padding-top: 60px;
 }
 
-#connectCanvas{ 
+#connect-canvas{ 
     position: absolute;
-    left: 220px;
+    left: 240px;
     top: 0;  
 }
 
-#connectCanvas p {
+#connect-canvas p {
     padding-top: 40px;
 }
 
-#createButton p {
+#create-button {
+    margin-top: 10px;
+}
+
+#create-button p {
     padding-top: 80px;
 }
 
-#dashscreen{
-    width: 420px;
+#dashscreen {
+    width: 440px;
     height: 200px;
-    margin: auto;
-    position: relative;
-    margin-top: 50px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    margin-left: -220px;
+    margin-top: -140px;
 }
 
-#dashscreen p, #createButton p {
-    color: White;
+#dashscreen p, #create-button p {
+    color: white;
     font-size: 30px;
     text-decoration: none;
     text-align: center;
+    line-height: 40px;
 }
 
-#createCanvasPage {
+#create-canvas-page {
     width: 200px;
-    margin: auto;
-    margin-top: 40px;
+    height: 280px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    margin-left: -100px;
+    margin-top: -220px;
 }
 
-#createCanvasPage input {
-    background-color: Grey;
-    border: none;
+#create-canvas-page > p,
+#select-canvas-page > p {
+    font-size: 20px;
+}
+
+#create-canvas-page input {
+    background-color: #e7e7e7;
+    border: 1px solid #aaa;
     border-radius: 5px;
     font-weight: bold;
-    color: White;
     padding: 5px;
-    font-size: 15px;
+    font-size: 20px;
     width: 190px;
     margin: 10px 0;
 }
 
-#selectCanvasPage {
-    width: 250px;
-    margin: auto;
-    margin-top: 40px;
-    position: relative;
+#select-canvas-page {
+    width: 260px;
+    height: 280px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    margin-left: -100px;
+    margin-top: -220px;
 }
 
-#selectCanvasPage div {
+#select-canvas-page div {
     position: absolute;
     top: 65px;
     left: 25px;
 }
 
-#selectCanvasPage select {
+#select-canvas-page select {
     position: absolute;
     top: 15px;
     left: 0;
     width: 250px;
     margin: 10px 0;
+    font-size: 22px;
 }

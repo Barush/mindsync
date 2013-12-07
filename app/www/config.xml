@@ -54,20 +54,20 @@
     -->
 
     <!-- Define app icon for each platform. -->
-    <icon src="sample_ico.png" />
-    <icon src="sample_ico.png"   gap:platform="android"    gap:density="ldpi" />
-    <icon src="sample_ico.png"   gap:platform="android"    gap:density="mdpi" />
-    <icon src="sample_ico.png"   gap:platform="android"    gap:density="hdpi" />
-    <icon src="sample_ico.png"   gap:platform="android"    gap:density="xhdpi" />
-    <icon src="sample_ico.png"   gap:platform="blackberry" />
-    <icon src="sample_ico.png"   gap:platform="blackberry" gap:state="hover"/>
-    <icon src="sample_ico.png"   gap:platform="ios"        width="57" height="57" />
-    <icon src="sample_ico.png"   gap:platform="ios"        width="72" height="72" />
-    <icon src="sample_ico.png"   gap:platform="ios"        width="114" height="114" />
-    <icon src="sample_ico.png"   gap:platform="ios"        width="144" height="144" />
-    <icon src="sample_ico.png"   gap:platform="webos" />
-    <icon src="sample_ico.png"   gap:platform="winphone" />
-    <icon src="sample_ico.png"   gap:platform="winphone"   gap:role="background" />
+    <icon src="ico.png" />
+    <icon src="ico.png"   gap:platform="android"    gap:density="ldpi" />
+    <icon src="ico.png"   gap:platform="android"    gap:density="mdpi" />
+    <icon src="ico.png"   gap:platform="android"    gap:density="hdpi" />
+    <icon src="ico.png"   gap:platform="android"    gap:density="xhdpi" />
+    <icon src="ico.png"   gap:platform="blackberry" />
+    <icon src="ico.png"   gap:platform="blackberry" gap:state="hover"/>
+    <icon src="ico.png"   gap:platform="ios"        width="57" height="57" />
+    <icon src="ico.png"   gap:platform="ios"        width="72" height="72" />
+    <icon src="ico.png"   gap:platform="ios"        width="114" height="114" />
+    <icon src="ico.png"   gap:platform="ios"        width="144" height="144" />
+    <icon src="ico.png"   gap:platform="webos" />
+    <icon src="ico.png"   gap:platform="winphone" />
+    <icon src="ico.png"   gap:platform="winphone"   gap:role="background" />
 
     <!-- Define app splash screen for each platform. 
     <gap:splash src="res/screen/android/screen-ldpi-portrait.png"  gap:platform="android" gap:density="ldpi" />
@@ -90,6 +90,9 @@
         Otherwise, you can specify specific domains:
     -->
     <access origin="http://127.0.0.1*"/> <!-- allow local pages -->
+    <access origin="http://mindsync-itu.herokuapp.com"/> <!-- android: allow remote database access -->
+    <access origin="mindsync-itu.herokuapp.com"/> <!-- ios: allow remote database access -->
+
     <!--
         <access origin="http://phonegap.com" />                    - allow any secure requests to http://phonegap.com/
         <access origin="http://phonegap.com" subdomains="true" />  - same as above, but including subdomains, such as http://build.phonegap.com/
