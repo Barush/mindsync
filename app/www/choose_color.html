@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>MindSync</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/jsonhttprequest.min.js"></script>
+    <script type="text/javascript">
+
+    function setColor(color){
+      localStorage.color = color;
+    }
+
+    function setUserName(){
+      localStorage.userName = document.getElementById("username").value;
+      if(!localStorage.userName)
+        localStorage.userName = "username";
+    }
+
+    </script>
+
+  </head>
+  <body onload="">
+  <div id="dash-container">
+    <div id="color-page">
+      Vyberte si přezdívku:<br />
+      <input type="text" onkeypress="inputKeyPressed()" name="name" id="username"></input> <br />
+      Vyberte si barvu:
+      <a href="mainpage.html" onclick="setColor('red');setUserName()">
+        <div id="chooseRed" class="red-dark">
+          <p>Červená</p>
+        </div>
+      </a>
+      <a href="mainpage.html" onclick="setColor('violet');setUserName()">
+        <div id="chooseViolet" class="violet-dark">
+          <p>Fialová</p>
+        </div>
+      </a>
+      <a href="mainpage.html" onclick="setColor('blue');setUserName()">
+        <div id="chooseBlue" class="blue-dark">
+          <p>Modrá</p>
+        </div>
+      </a>
+      <a href="mainpage.html" onclick="setColor('aqua');setUserName()">
+        <div id="chooseAqua" class="aqua-dark">
+          <p>Azurová</p>
+        </div>
+      </a>
+      <a href="mainpage.html" onclick="setColor('green');setUserName()">
+        <div id="chooseGreen" class="green-dark">
+          <p>Zelená</p>
+        </div>
+      </a>
+      <a href="mainpage.html" onclick="setColor('yellow');setUserName()">
+        <div id="chooseYellow" class="yellow-dark">
+          <p>Žlutá</p>
+        </div>
+      </a>
+      <a href="mainpage.html" onclick="setColor('orange');setUserName()">
+        <div id="chooseOrange" class="orange-dark">
+          <p>Oranžová</p>
+        </div>
+      </a>        
+    </div>
+  </div>
+</body>
+</html>
