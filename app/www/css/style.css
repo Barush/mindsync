@@ -131,6 +131,7 @@ ul {
 }
 
 #chat {
+    max-height: 60%;
     position: absolute;
     left: 0;
     bottom: 0;
@@ -145,7 +146,7 @@ ul {
 }
 
 #chat-bar {
-    height: 60%;
+    height: 100%;
     min-height: 260px;
     max-height: 500px;
     width: 100%;
@@ -164,49 +165,53 @@ ul {
 }
 
 #chat-bar-head,
-#chat-bar-textarea,
-#chat-bar-bottom {
+#chat-bar-textarea {
     margin: 0 auto;
     width: 270px;
 }
 
-#chat-bar-head {
-    position: relative;
-    height: 22px;
+#chat-bar-head h4 {
+    margin: 0 0 0 2px;
 }
 
 #chat-bar-textarea {
     padding: 3px 5px;
     width: 258px;
-    margin: 0 auto 3px auto;
+    margin: 3px auto 3px auto;
     border: 1px solid #aaa;
     background-color: #fff;
     -webkit-border-radius: 5px;
     border-radius: 5px;
     background-clip: padding-box;
-}
-
-#chat-bar-bottom {
-    height: 40px;
+    overflow-y: scroll;
+    overflow-wrap: break-word;
 }
 
 #chat-input {
-    width: 67%;
+    width: 181px;
     -webkit-border-radius: 5px;
     border-radius: 5px;
     border: 1px solid #aaa;
-    padding: 2px 3px;
+    padding: 3px 3px;
     background-clip: padding-box;
 }
 
 #chat-send {
-    width: 25%;
+    margin-top: 3px;
+    margin-right: 6px;
+    width: 56px;
+    height: 23px;
     float: right;
-    -webkit-border-radius: 5px;
-    border-radius: 5px;
-    border: 1px solid #aaa;
-    padding: 2px 3px;
-    background-color: #e7e7e7;
+    border: 0;
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+    padding: 3px 3px;
+    background-clip: padding-box;
+    background: url('../img/tlacitko_send.png');
+    background-size: 54px 23px;
+    background-repeat: no-repeat;
+    background-color: #fff;
+    border-radius: 8px;
     background-clip: padding-box;
 }
 
@@ -236,9 +241,9 @@ ul {
 }
 
 #tools {
+    height: 385px;
     position: absolute;
     bottom: 0;
-    top: 0;
     right: 0;
     width: 142px;
     margin: 0;
@@ -252,7 +257,6 @@ ul {
 
 #tools-bar {
     width: 142px;
-    height: auto;
     position: absolute;
     right: 0;
     bottom: 85px;
@@ -408,7 +412,6 @@ ul {
 #dashscreen p, #create-button p {
     color: white;
     font-size: 30px;
-    text-decoration: none;
     text-align: center;
     line-height: 40px;
 }
@@ -428,7 +431,7 @@ ul {
     font-size: 20px;
 }
 
-#create-canvas-page input {
+#create-canvas-page input, #username {
     background-color: #e7e7e7;
     border: 1px solid #aaa;
     border-radius: 5px;
@@ -462,4 +465,67 @@ ul {
     width: 250px;
     margin: 10px 0;
     font-size: 22px;
+}
+
+#color-page {
+    width: 415px;
+    height: 265px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    margin-left: -200px;
+    margin-top: -220px;
+    text-align: center;
+}
+
+#color-page div{
+    width: 100px;
+    height: 100px;
+    border-radius: 10px;
+    box-shadow: black 0 2px 12px 0;
+    -webkit-box-shadow: black 0 2px 12px 0;
+    -moz-box-shadow: black 0 2px 12px 0; 
+    position: absolute;
+}
+
+#color-page p {
+    color: White;
+    font-weight: bold;
+    padding-top: 65px;
+    font-size: 17px;
+}
+
+#chooseRed {
+    top: 100px;
+    left: 0;
+}
+
+#chooseViolet {
+    top: 100px;
+    left: 105px;
+}
+
+#chooseBlue {
+    top: 100px;
+    left: 210px;
+}
+
+#chooseAqua {
+    top: 100px;
+    left: 315px;
+}
+
+#chooseGreen {
+    top: 205px;
+    left: 52px;
+}
+
+#chooseYellow {
+    top: 205px;
+    left: 157px;
+}
+
+#chooseOrange {
+    top: 205px;
+    left: 262px;
 }

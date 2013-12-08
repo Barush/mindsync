@@ -5,30 +5,27 @@
 
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <script type="text/javascript" charset="utf-8" src="js/jsonhttprequest.min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/kinetic-v4.7.4.min.js"></script>
     <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
 
     <script type="text/javascript">
 
-        function createCanvas() {
-          var JHR = new JSONHttpRequest();
-          var address = "http://mindsync-itu.herokuapp.com/canvas/new";
-          var canvasName = document.getElementById("new-canvas").value;
+        // Globals
+        var lastMessageId = 0;
+        var downloadingMessages = false;
+        var messageCheckInterval = 1000;
+        
+        var lastActionId = 0;
+        var downloadingActions = false;
+        var actionCheckInterval = 1000;
 
-          if (canvasName) {
-            var jsonObj = { name: canvasName };
-            JHR.open("POST", address, false);
+        var activeTool = 'line';
 
-            JHR.onreadystatechange = function() {
-              if (JHR.readyState == 4) {
-                localStorage.canvasId = JHR.responseJSON.id;
-              }
-            }
+        var STROKE_TYPES = ['solid', 'dashed', 'dotted'];
+        var strokeType = 'solid';
+        var strokeWidth = 3;
 
-            JHR.sendJSON(jsonObj);
-            return true;
-          }
-          return false;
-        }
+        var layer;
 
         function escapeHtml(text) {
           return text
@@ -39,12 +36,20 @@
               .replace(/'/g, "&#039;");
         }
 
+        function getWidth() {
+          return screen.width;
+        }
+
+        function getHeight() {
+          return document.documentElement.clientHeight - 60;
+        }
+
         function setWidth(){
-            document.getElementById("main-canvas").width = screen.width;
+            document.getElementById("main-canvas").width = getWidth();
         }
 
         function setHeight(){
-            document.getElementById("main-canvas").height = document.documentElement.clientHeight - 60;
+            document.getElementById("main-canvas").height = getHeight();
         }
 
         function setLengths(){
@@ -53,11 +58,11 @@
         }
 
         function setChatHeight(){
-          document.getElementById("chat-bar-textarea").style.height = (document.getElementById("chat-bar").clientHeight - (10+22+40+15)) + "px";
+          document.getElementById("chat-bar-textarea").style.height = (document.getElementById("chat-bar").clientHeight - (10+48+20+15)) + "px";
+          document.getElementById("chat").style.height = (document.getElementById("chat-bar").clientHeight + 85) + "px";
         }
 
         function chatToggle(){
-            console.log(document.getElementById("chat").style.left);
             if(document.getElementById("chat").style.left == (-1) * (document.getElementById("chat").clientWidth + 1) +"px"){
                 document.getElementById("chat").style.left = "0";    
             }
@@ -68,7 +73,6 @@
         }
 
         function toolsToggle(){
-            console.log(document.getElementById("tools").style.right);
             if(document.getElementById("tools").style.right == (-1) * (document.getElementById("tools").clientWidth + 1) + "px"){
                 document.getElementById("tools").style.right = "0";    
             }
@@ -83,32 +87,227 @@
             }
         }
 
-        function getCurrentUserName() {
-          // TODO localStorage.userName
-          return "UserX";
-        }
-
-        function getCurrentUserColor() {
-          // TODO localStorage.color
-          return "blue";
+        function setstrokeType(type) {
+          strokeType = type;
+          return true;
         }
 
         function sendMessage() {
-            msg = document.getElementById('chat-input').value;
-            if (msg != "") {
-                msg = escapeHtml(msg);
-                var spanMsg = document.createElement('span');
-                spanMsg.className = getCurrentUserColor() + "-dark-text";
-                spanMsg.innerHTML = getCurrentUserName() + ": ";
-                document.getElementById('chat-bar-textarea').appendChild(spanMsg);
-                document.getElementById('chat-bar-textarea').innerHTML += msg + "<br>";
-                document.getElementById('chat-input').value = "";
-                // TODO send msg
-            }
+          msg = document.getElementById('chat-input').value;
+          if (msg) {
+              var JHR = new JSONHttpRequest();
+              var canvasId = localStorage.canvasId;
+              var userName = localStorage.userName;
+              var color = localStorage.color;
+              var address = "http://mindsync-itu.herokuapp.com/canvas/"+canvasId+"/message/new";
+
+              JHR.onreadystatechange = function() {
+                if (JHR.readyState == 4 && JHR.status == 200) {
+                  checkMessages();
+                }
+              }
+
+              var jsonObj = { text: msg, username: userName, color: color };
+              JHR.open("POST", address, true);
+              JHR.sendJSON(jsonObj);
+
+              document.getElementById('chat-input').value = "";
+
+              return true;
+          }
+          else
+            return false;
         }
         
+        function writeMessageToTextarea(msg_json) {
+          var text = escapeHtml(msg_json.text);
+          var spanMsg = document.createElement('span');
+          spanMsg.className = msg_json.color + "-dark-text";
+          spanMsg.innerHTML = msg_json.username + ": ";
+          var textarea = document.getElementById('chat-bar-textarea');
+          textarea.innerHTML = text + "<br>" + textarea.innerHTML;
+          textarea.insertBefore(spanMsg, textarea.firstChild);
+        }
+
+        function getLastMessageId() {
+          var JHR = new JSONHttpRequest();
+          var canvasId = localStorage.canvasId;
+          var address = "http://mindsync-itu.herokuapp.com/canvas/"+canvasId+"/message/last_id";
+
+          JHR.onreadystatechange = function() {
+            if (JHR.readyState == 4 && JHR.status == 200) {
+              if (lastMessageId < JHR.responseJSON.id)
+                getMessages(JHR.responseJSON.id);
+              else
+                downloadingMessages = false;
+            }
+          }
+
+          JHR.open("GET", address, true);
+          JHR.send();
+
+        }
+
+        function getAllMessages() {
+          var JHR = new JSONHttpRequest();
+          var canvasId = localStorage.canvasId;
+          var address = "http://mindsync-itu.herokuapp.com/canvas/"+canvasId;
+
+          downloadingMessages = true;
+
+          JHR.onreadystatechange = function() {
+            if (JHR.readyState == 4 && JHR.status == 200) {
+              messages = JHR.responseJSON.messages;
+              for (var i=0; i<messages.length; i++) {
+                writeMessageToTextarea(messages[i]);
+                lastMessageId++;
+              }
+              downloadingMessages = false;
+            }
+          }
+
+          JHR.open("GET", address, true);
+          JHR.send();
+          
+          return true;
+        }
+
+        function checkMessages() {
+          if (!downloadingMessages) {
+            downloadingMessages = true;
+            getLastMessageId();
+          }
+          return true;
+        }
+
+        function getMessages(toId) {
+          var JHR = new JSONHttpRequest();
+          var canvasId = localStorage.canvasId;
+          var address = "http://mindsync-itu.herokuapp.com/canvas/"+canvasId+"/message/"+(lastMessageId+1);
+
+          JHR.onreadystatechange = function() {
+            if (JHR.readyState == 4 && JHR.status == 200) {
+              writeMessageToTextarea(JHR.responseJSON);
+              lastMessageId++;
+              if (lastMessageId < toId)
+                getMessages(toId);
+              else
+                downloadingMessages = false;
+            }
+          }
+
+          JHR.open("GET", address, true);
+          JHR.send();
+          
+          return true;
+        }
+
+        function checkMessages() {
+          if (!downloadingMessages) {
+            downloadingMessages = true;
+            getLastMessageId();
+          }
+          return true;
+        }
+
+        
+        function sendAction(obj_json) {
+            var JHR = new JSONHttpRequest();
+            var canvasId = localStorage.canvasId;
+            var type = "draw";
+
+            var address = "http://mindsync-itu.herokuapp.com/canvas/"+canvasId+"/action/new";
+
+            var jsonObj = { type: type, obj_json: obj_json };
+            JHR.open("POST", address, true);
+            JHR.sendJSON(jsonObj);
+
+            return true;
+        }
+        
+        function drawObject(obj_json) {
+          var newObject = Kinetic.Node.create(obj_json);
+          layer.add(newObject);
+          layer.drawScene();
+        }
+
+        function getLastActionId() {
+          var JHR = new JSONHttpRequest();
+          var canvasId = localStorage.canvasId;
+          var address = "http://mindsync-itu.herokuapp.com/canvas/"+canvasId+"/action/last_id";
+
+          JHR.onreadystatechange = function() {
+            if (JHR.readyState == 4 && JHR.status == 200) {
+              if (lastActionId < JHR.responseJSON.id)
+                getActions(JHR.responseJSON.id);
+              else
+                downloadingActions = false;
+            }
+          }
+
+          JHR.open("GET", address, true);
+          JHR.send();
+
+          return true;
+        }
+
+        function getAllActions() {
+          var JHR = new JSONHttpRequest();
+          var canvasId = localStorage.canvasId;
+          var address = "http://mindsync-itu.herokuapp.com/canvas/"+canvasId;
+
+          downloadingActions = true;
+
+          JHR.onreadystatechange = function() {
+            if (JHR.readyState == 4 && JHR.status == 200) {
+              actions = JHR.responseJSON.actions;
+              for (var i=0; i<actions.length; i++) {
+                drawObject(actions[i].obj_json);
+                lastActionId++;
+              }
+              downloadingActions = false;
+            }
+          }
+
+          JHR.open("GET", address, true);
+          JHR.send();
+          
+          return true;
+        }
+
+        function getActions(toId) {
+          var JHR = new JSONHttpRequest();
+          var canvasId = localStorage.canvasId;
+          var address = "http://mindsync-itu.herokuapp.com/canvas/"+canvasId+"/action/"+(lastActionId+1);
+
+          JHR.onreadystatechange = function() {
+            if (JHR.readyState == 4 && JHR.status == 200) {
+              drawObject(JHR.responseJSON.obj_json);
+              lastActionId++;
+              if (lastActionId < toId)
+                getActions(toId);
+              else
+                downloadingActions = false;
+            }
+          }
+
+          JHR.open("GET", address, true);
+          JHR.send();
+          
+          return true;
+        }
+
+        function checkActions() {
+          if (!downloadingActions) {
+            downloadingActions = true;
+            getLastActionId();
+          }
+          return true;
+        }
+        
+
         function setUIColor() {
-            color = getCurrentUserColor();
+            color = localStorage.color;
             document.getElementById('chat-bar').className = color + "-light";
             document.getElementById('tools-bar').className = color + "-light";
             document.getElementById('chat-button-img').className = color + "-light";
@@ -120,36 +319,131 @@
           document.getElementById('tools-button-img').src = el.getElementsByTagName('img')[0].src;
         }
 
-        window.onload = function() {
-            setLengths();
-            setUIColor();
-            setChatHeight();
-            chatToggle();
-            toolsToggle();
+        function setChatUserName() {
+          document.getElementById('chat-bar-head').getElementsByTagName('h4')[0].innerHTML = localStorage.userName;
+        }
+
+        function getKinectLine() {
+          var line;
+          if (strokeType == 'solid') {
+            line = new Kinetic.Line({
+              points: [0, 0, 0, 0],
+              stroke: localStorage.color,
+              strokeWidth: strokeWidth
+            });
+          }
+          else if (strokeType == 'dashed') {
+            line = new Kinetic.Line({
+              points: [0, 0, 0, 0],
+              stroke: localStorage.color,
+              strokeWidth: strokeWidth,
+              dashArray: [19, 10]
+            });
+          }
+          else {
+            line = new Kinetic.Line({
+              points: [0, 0, 0, 0],
+              stroke: localStorage.color,
+              strokeWidth: strokeWidth,
+              dashArray: [3, 5]
+            });
+          }
+          return line;
+        }
+
+        function setKinectCanvas() {
+          layer = new Kinetic.Layer();
+          var stage = new Kinetic.Stage({
+              container: "main-canvas",
+              width: getWidth(),
+              height: getHeight()
+          });
+          var line;
+
+          var background = new Kinetic.Rect({
+              x: 0, 
+              y: 0, 
+              width: stage.getWidth(),
+              height: stage.getHeight(),
+              fill: "white"
+          });
+
+          layer.add(background);
+          stage.add(layer);
+
+          var moving = false;
+
+          stage.on("mousedown touchstart", function(){
+              if (activeTool == 'line') {
+                line = getKinectLine();
+                if (moving){
+                    moving = false;
+                    layer.draw();
+                } else {
+                    var mousePos = stage.getPointerPosition();
+                    line.getPoints()[0].x = mousePos.x;
+                    line.getPoints()[0].y = mousePos.y;
+                    line.getPoints()[1].x = mousePos.x;
+                    line.getPoints()[1].y = mousePos.y;
+
+                    moving = true;    
+                    layer.add(line);
+                    layer.drawScene();            
+                }
+              }
+
+          });
+
+          stage.on("mousemove touchmove", function(){
+              if (moving) {
+                  var mousePos = stage.getPointerPosition();
+                  line.getPoints()[1].x = mousePos.x;
+                  line.getPoints()[1].y = mousePos.y;
+                  moving = true;
+                  layer.drawScene();
+              }
+          });
+
+          stage.on("mouseup touchend", function(){
+              moving = false;
+              sendAction(line.toJSON());
+              console.log(line.toJSON());
+          });
         }
 
         window.onresize = function(){
             setChatHeight();
-            setLengths();
         }
+
+        window.onload = function() {
+            setLengths();
+            setUIColor();
+            setChatHeight();
+            setChatUserName();
+            chatToggle();
+            toolsToggle();
+            setKinectCanvas();
+            getAllMessages();
+            getAllActions();
+            window.setInterval(checkMessages, messageCheckInterval);
+            window.setInterval(checkActions, actionCheckInterval);
+        };
 
     </script>
   </head>
   <body>
   <div id="container">
-    <canvas id="main-canvas">
-    </canvas>
+    <div id="main-canvas">
+    </div>
 
     <div id="chat">
         <div id="chat-bar">
-          <h4 id="chat-bar-head">Chat:</h4>
-          <div id="chat-bar-textarea">
-            <span class="green-dark-text">User1: </span>Ahoj lidi!<br>
-            <span class="violet-dark-text">User2: </span>Zdarec<br>
-          </div>
-          <div id="chat-bar-bottom">
+          <div id="chat-bar-head">
+            <h4>UserX:</h4>
             <input onkeypress="chatKeyPressed(event)" type="text" id="chat-input">
-            <button onclick="sendMessage()" id="chat-send">Send</button>
+            <button onclick="sendMessage()" id="chat-send">&nbsp;</button>
+          </div>
+          <div id="chat-bar-textarea">
           </div>
         </div>
         <div id="chat-shadow">
@@ -213,12 +507,12 @@
       <li class="bottom-bar"><a href="#"><img src="img/undo.png" alt="undo" /></a></li>
       <li class="bottom-bar"><a href="#"><img src="img/redo.png" alt="redo" /></a></li>
       <li class="bottom-bar"><a href="#"><img src="img/ulozeni.png" alt="save" /></a></li>
-      <li class="bottom-bar"><a href="#"><img src="img/nastaveni.png" alt="settings" /></a></li>
+      <li class="bottom-bar"><a href="settings.html"><img src="img/nastaveni.png" alt="settings" /></a></li>
     </ul>
     <ul id="left-part">
-      <li class="bottom-bar"><a href="#"><img src="img/cara_tuzka_plna.png" alt="solid line" title="solid line"/></a></li>
-      <li class="bottom-bar"><a href="#"><img src="img/cara_tuzka_prerusovana.png" alt="dotted line" title="dotted line"/></a></li>
-      <li class="bottom-bar"><a href="#"><img src="img/cara_tuzka_teckovana.png" alt="dashed line" title="dashed line"/></a></li>
+      <li class="bottom-bar"><a href="#" onclick="setstrokeType('solid')"><img src="img/cara_tuzka_plna.png" alt="solid line" title="solid line"/></a></li>
+      <li class="bottom-bar"><a href="#" onclick="setstrokeType('dashed')"><img src="img/cara_tuzka_prerusovana.png" alt="dotted line" title="dotted line"/></a></li>
+      <li class="bottom-bar"><a href="#" onclick="setstrokeType('dotted')"><img src="img/cara_tuzka_teckovana.png" alt="dashed line" title="dashed line"/></a></li>
     </ul>
     <ul id="slider">
       <li class="bottom-bar"><a href="#"><img src="img/no_img.svg" alt="slider" title="slider"/></a></li>

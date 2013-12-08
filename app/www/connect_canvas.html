@@ -4,7 +4,7 @@
     <title>MindSync</title>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
     <link rel="stylesheet" type="text/css" href="css/style.css">
-    <script type="text/javascript" charset="utf-8" src="js/jsonhttprequest.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/jsonhttprequest.min.js"></script>
     <script type="text/javascript">
 
 
@@ -13,27 +13,30 @@
       var address = "http://mindsync-itu.herokuapp.com/canvas/list";
       var canvasCount = 0;
 
-      JHR.onreadystatechange = function() {
-        if (JHR.readyState == 4) {
-          canvasCount = JHR.responseJSON.canvases.length;
-        }
-      }
       JHR.open("GET", address, false);
       JHR.sendJSON();
-      
+
+      canvasCount = JHR.responseJSON.canvases.length;
+
       if(canvasCount > 0){
         for(var i = 0; i < canvasCount; i++){
           document.getElementById("sessions").innerHTML += '<option value="'+JHR.responseJSON.canvases[i].id+'">'+JHR.responseJSON.canvases[i].name+'</option>'
         }
       }
       else {
-        document.getElementById("sessions").innerHTML = '<option value="none">Žádné plátno není k dispozici</option>'
+        document.getElementById("sessions").innerHTML = '<option value="none">Žádné neexistuje</option>'
       }
     }
     
     function connectToCanvas(){
-      var selected = document.getElementById("sessions")
-      localStorage.canvasId = selected.options[selected.selectedIndex].value;
+      var selected = document.getElementById("sessions");
+      var selectedValue = selected.options[selected.selectedIndex].value;
+      if (selectedValue && selectedValue != "none") {
+        localStorage.canvasId = selectedValue;
+        return true;
+      }
+      else
+        return false;
     }
 
     </script>
@@ -46,7 +49,7 @@
 		  <p>Vyberte existující plátno:</p>
 		  <select id="sessions">
       </select>
-      <a href="mainpage.html" onclick="connectToCanvas();">
+      <a href="choose_color.html" onclick="return connectToCanvas()">
         <div id="create-button">
           <p>Připojit</p>
         </div>

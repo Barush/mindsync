@@ -6,7 +6,7 @@
 
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
-    <script type="text/javascript" charset="utf-8" src="js/jsonhttprequest.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/jsonhttprequest.min.js"></script>
     <script type="text/javascript">
 
       function inputKeyPressed(e) {
@@ -24,15 +24,9 @@
 
         if (canvasName) {
           var jsonObj = { name: canvasName };
-          JHR.open("POST", address, true);
-
-          JHR.onreadystatechange = function() {
-            if (JHR.readyState == 4) {
-              localStorage.canvasId = JHR.responseJSON.id;
-            }
-          }
-
+          JHR.open("POST", address, false);
           JHR.sendJSON(jsonObj);
+          localStorage.canvasId = JHR.responseJSON.id;
           return true;
         }
         return false;
@@ -46,7 +40,7 @@
     <div id="create-canvas-page">
 		  <p>Název nového plátna:</p>
 		  <input type="text" onkeypress="inputKeyPressed()" name="name" id="new-canvas"></input> <br />
-      <a href="mainpage.html" id="create-button-link" onclick="return createCanvas()" >
+      <a href="choose_color.html" id="create-button-link" onclick="return createCanvas()" >
         <div id="create-button">
           <p>Vytvořit</p>
         </div>
