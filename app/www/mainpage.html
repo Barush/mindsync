@@ -285,7 +285,8 @@
           JHR.sendJSON();
 
           canvasCount = JHR.responseJSON.canvases.length;
-
+  
+          document.getElementById("sessions").innerHTML = "";
           if(canvasCount > 0){
             for(var i = 0; i < canvasCount; i++){
               document.getElementById("sessions").innerHTML += '<option value="'+JHR.responseJSON.canvases[i].id+'">'+JHR.responseJSON.canvases[i].name+'</option>'
@@ -382,7 +383,8 @@
 
           setUIColor();
           setChatUserName();
-          getActions(0);
+          layer.removeChildren();
+          getAllActions();
         }
 
         function getKinectLine() {
