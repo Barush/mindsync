@@ -306,11 +306,11 @@ ul {
     text-align: center;
 }
 
-#loading-pane{
-    height: 32px;
-    width: 32px;
-    margin: 300px auto;
-    background-image: url("../img/loading-animation.gif");
+#loading {
+    color: White;
+    font-size: 20px;
+    font-weight: bold;
+    padding-top: 300px;
 }
 
 #settings-pane{
