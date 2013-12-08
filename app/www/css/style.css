@@ -320,7 +320,7 @@ ul {
     border-radius: 20px;
     margin: 50px auto;
     position: relative;
-    padding-top: 30px;
+    padding-top: 20px;
     text-align: center;
 }
 
@@ -347,7 +347,7 @@ ul {
     color: Black;
     font-weight: bolder;
     font-size: 30px;
-    padding-top: 10px
+    padding-top: 8px
 }
 
 #canvas-name {
