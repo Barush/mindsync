@@ -383,8 +383,10 @@
 
           setUIColor();
           setChatUserName();
-          layer.removeChildren();
+          layer.remove();
+          setKinectCanvas();
           getAllActions();
+          getAllMessages();
         }
 
         function getKinectLine() {
@@ -582,8 +584,32 @@
       <li class="bottom-bar"><a href="#"><img src="img/no_img.svg" alt="slider" title="slider"/></a></li>
     </ul>
   </div>
-  <div id="settings" style="display: none">
+  <div id="settings" style="display: none;">
     <div id="settings-pane">
+      <p>Změnit nick:</p>
+      <input type="text" onkeypress="inputKeyPressed()" name="name" id="username"></input> <br />
+      <p>Změnit plátno:</p><br />
+      <select id="sessions">
+      </select>
+      <p>Změnit barvu:</p><br />
+      <select id="select-color">
+        <option value="red" class="red-dark">Červená</option>
+        <option value="violet" class="violet-dark">Fialová</option>
+        <option value="blue" class="blue-dark">Modrá</option>
+        <option value="aqua" class="aqua-dark">Azurová</option>
+        <option value="green" class="green-dark">Zelená</option>
+        <option value="yellow" class="yellow-dark">Žlutá</option>
+        <option value="orange" class="orange-dark">Oranžová</option>
+      <select>
+      <a href="#" onclick="setSettings()">
+        <div id="settings-confirm-button">
+          Potvrdit
+        </div>
+      </a>
+    </div>
+  </div>
+  <div id="save" style="display: none">
+    <div id="save-pane">
       <p>Změnit nick:</p>
       <input type="text" onkeypress="inputKeyPressed()" name="name" id="username"></input> <br />
       <p>Změnit plátno:</p><br />
