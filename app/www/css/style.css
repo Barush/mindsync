@@ -313,7 +313,7 @@ ul {
     padding-top: 300px;
 }
 
-#settings-pane{
+#settings-pane, #save-pane{
     height: 500px;
     width: 400px;
     border: solid 1px White;
@@ -324,7 +324,7 @@ ul {
     text-align: center;
 }
 
-#settings-pane p {
+#settings-pane p, #save-pane p {
     color: White;
     font-weight: bold;
     font-size: 22px;
@@ -337,12 +337,13 @@ ul {
     font-weight: bold;
 }
 
-#settings-confirm-button {
+#settings-confirm-button, #save-confirm-button, 
+#settings-cancel-button, #save-cancel-button {
     height: 50px;
     width: 200px;
     border: solid 1px White;
     border-radius: 10px;
-    margin: 50px auto;
+    margin: 30px auto;
     color: Black;
     font-weight: bolder;
     font-size: 30px;

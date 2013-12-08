@@ -349,6 +349,21 @@
           document.getElementById('chat-bar-head').getElementsByTagName('h4')[0].innerHTML = localStorage.userName;
         }
 
+        function notImplemented(){
+          window.alert("Tato operace neni v demoverzi implementovana.");
+        }
+
+        function allowSave(){
+          document.getElementById("save").style.display = "inline";
+          document.getElementById("save-pane").className = color + "-dark";
+          document.getElementById("save-confirm-button").className = color + "-light";
+          document.getElementById("save-cancel-button").className = color + "-light";
+        }
+
+        function disallowSave() {
+          document.getElementById("save").style.display = "none";
+        }
+
         function allowSettings() {
           getCanvases();
           var color = localStorage.color;
@@ -356,6 +371,7 @@
 
           document.getElementById("settings-pane").className = color + "-dark";
           document.getElementById("settings-confirm-button").className = color + "-light";
+          document.getElementById("settings-cancel-button").className = color + "-light";
 
           var dropdown = document.getElementById("select-color");
           for(var i = 0; i < dropdown.options.length; i++){
@@ -364,6 +380,10 @@
               break;
             }
           }
+        }
+
+        function disallowSettings(){
+          document.getElementById("settings").style.display = "none";
         }
 
         function setSettings(){
@@ -579,7 +599,8 @@
     <ul id="right-part">
       <li class="bottom-bar"><a href="#"><img src="img/undo.png" alt="undo" /></a></li>
       <li class="bottom-bar"><a href="#"><img src="img/redo.png" alt="redo" /></a></li>
-      <li class="bottom-bar"><a href="#"><img src="img/ulozeni.png" alt="save" /></a></li>
+      <li class="bottom-bar"><a href="#" onclick="allowSave()"><img src="img/ulozeni.png" alt="save" /></a></li>
+      <li class="bottom-bar"><a href="index.html"><img src="img/domu.png" alt="home" /></a></li>
       <li class="bottom-bar"><a href="#" onclick="allowSettings()"><img src="img/nastaveni.png" alt="settings" /></a></li>
     </ul>
     <ul id="left-part">
@@ -613,28 +634,28 @@
           Potvrdit
         </div>
       </a>
+      <a href="#" onclick="disallowSettings()">
+        <div id="settings-cancel-button">
+          Zrušit
+        </div>
+      </a>
     </div>
   </div>
   <div id="save" style="display: none">
     <div id="save-pane">
-      <p>Změnit nick:</p>
+      <p>Název souboru:</p>
       <input type="text" onkeypress="inputKeyPressed()" name="name" id="username"></input> <br />
-      <p>Změnit plátno:</p><br />
-      <select id="sessions">
-      </select>
-      <p>Změnit barvu:</p><br />
-      <select id="select-color">
-        <option value="red" class="red-dark">Červená</option>
-        <option value="violet" class="violet-dark">Fialová</option>
-        <option value="blue" class="blue-dark">Modrá</option>
-        <option value="aqua" class="aqua-dark">Azurová</option>
-        <option value="green" class="green-dark">Zelená</option>
-        <option value="yellow" class="yellow-dark">Žlutá</option>
-        <option value="orange" class="orange-dark">Oranžová</option>
-      <select>
-      <a href="#" onclick="setSettings()">
-        <div id="settings-confirm-button">
-          Potvrdit
+      <p>Cílová složka:</p>
+      <input type="text" onkeypress="inputKeyPressed()" name="name" id="username"></input> <br />
+      <input type="button" onclick="notImplemented()" value="Procházet" />
+      <a href="#" onclick="notImplemented();disallowSave()">
+        <div id="save-confirm-button">
+          Uložit
+        </div>
+      </a>
+      <a href="#" onclick="disallowSave()">
+        <div id="save-cancel-button">
+          Zrušit
         </div>
       </a>
     </div>
