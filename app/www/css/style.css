@@ -295,7 +295,7 @@ ul {
     height: 34px;
 }
 
-#settings, #save{
+#settings, #save, #loading{
     background-color: Grey;
     opacity: 0.9;
     position: absolute;
@@ -304,6 +304,13 @@ ul {
     left: 0;
     right: 0;
     text-align: center;
+}
+
+#loading-pane{
+    height: 32px;
+    width: 32px;
+    margin: 300px auto;
+    background-image: url("../img/loading-animation.gif");
 }
 
 #settings-pane{

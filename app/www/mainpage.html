@@ -241,8 +241,10 @@
             if (JHR.readyState == 4 && JHR.status == 200) {
               if (lastActionId < JHR.responseJSON.id)
                 getActions(JHR.responseJSON.id);
-              else
+              else{
                 downloadingActions = false;
+                document.getElementById("loading").style.display = "none";
+              }
             }
           }
 
@@ -258,6 +260,7 @@
           var address = "http://mindsync-itu.herokuapp.com/canvas/"+canvasId;
 
           downloadingActions = true;
+          document.getElementById("loading").style.display = "inline";
 
           JHR.onreadystatechange = function() {
             if (JHR.readyState == 4 && JHR.status == 200) {
@@ -267,6 +270,7 @@
                 lastActionId++;
               }
               downloadingActions = false;
+              document.getElementById("loading").style.display = "none";
             }
           }
 
@@ -386,7 +390,10 @@
           layer.remove();
           setKinectCanvas();
           getAllActions();
+          document.getElementById("chat-bar-textarea").innerHTML = "";
+          lastMessageId = 0;
           getAllMessages();
+
         }
 
         function getKinectLine() {
@@ -630,6 +637,10 @@
           Potvrdit
         </div>
       </a>
+    </div>
+  </div>  
+  <div id="loading" style="display: none">
+    <div id="loading-pane">
     </div>
   </div>
 </body>
