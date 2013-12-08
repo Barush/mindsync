@@ -341,6 +341,11 @@
             document.getElementById('menu').className = "color-gradient " + color + "-light";
         }
 
+        function setCanvasName() {
+          document.getElementById("canvas-name").innerHTML = localStorage.canvasName + ":";
+          document.getElementById("canvas-name").className = localStorage.color + "-light";
+        }
+
         function setToolbarIcon(el) {
           document.getElementById('tools-button-img').src = el.getElementsByTagName('img')[0].src;
         }
@@ -393,8 +398,10 @@
 
           var selected = document.getElementById("sessions");
           var selectedValue = selected.options[selected.selectedIndex].value;
+          var selectedName = selected.options[selected.selectedIndex].text;
           if (selectedValue && selectedValue != "none") {
             localStorage.canvasId = selectedValue;
+            localStorage.canvasName = selectedName;
           }
 
           var selected = document.getElementById("select-color");
@@ -413,7 +420,7 @@
           document.getElementById("chat-bar-textarea").innerHTML = "";
           lastMessageId = 0;
           getAllMessages();
-
+          setCanvasName();
         }
 
         function getKinectLine() {
@@ -511,6 +518,7 @@
         window.onload = function() {
             setLengths();
             setUIColor();
+            setCanvasName();
             setChatHeight();
             setChatUserName();
             chatToggle();
@@ -527,6 +535,9 @@
   <body>
   <div id="container">
     <div id="main-canvas">
+    </div>
+
+    <div id="canvas-name">
     </div>
 
     <div id="chat">

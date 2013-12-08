@@ -27,6 +27,7 @@
           JHR.open("POST", address, false);
           JHR.sendJSON(jsonObj);
           localStorage.canvasId = JHR.responseJSON.id;
+          localStorage.canvasName = JHR.responseJSON.name
           return true;
         }
         return false;

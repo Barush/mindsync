@@ -31,8 +31,10 @@
     function connectToCanvas(){
       var selected = document.getElementById("sessions");
       var selectedValue = selected.options[selected.selectedIndex].value;
+      var selectedName = selected.options[selected.selectedIndex].text;
       if (selectedValue && selectedValue != "none") {
         localStorage.canvasId = selectedValue;
+        localStorage.canvasName = selectedName;
         return true;
       }
       else
