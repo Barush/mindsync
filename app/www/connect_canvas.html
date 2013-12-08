@@ -4,37 +4,36 @@
     <title>MindSync</title>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
     <link rel="stylesheet" type="text/css" href="css/style.css">
-    <script type="text/javascript" charset="utf-8" src="js/jsonhttprequest.min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/jsonhttprequest.js"></script>
     <script type="text/javascript">
 
 
     function getCanvases(){
       var JHR = new JSONHttpRequest();
       var address = "http://mindsync-itu.herokuapp.com/canvas/list";
-
-      JHR.open("POST", address, false);
+      var canvasCount = 0;
 
       JHR.onreadystatechange = function() {
         if (JHR.readyState == 4) {
-          window.alert(JHR.responseJSON);
+          canvasCount = JHR.responseJSON.canvases.length;
         }
       }
+      JHR.open("GET", address, false);
+      JHR.sendJSON();
       
-     /* window.alert("canvas count is " + canvasCount);
       if(canvasCount > 0){
         for(var i = 0; i < canvasCount; i++){
-          document.getElementById("sessions").innerHTML += '<option value="'+i+'">Nazev platna</option>'
+          document.getElementById("sessions").innerHTML += '<option value="'+JHR.responseJSON.canvases[i].id+'">'+JHR.responseJSON.canvases[i].name+'</option>'
         }
       }
       else {
         document.getElementById("sessions").innerHTML = '<option value="none">Žádné plátno není k dispozici</option>'
-      }*/
+      }
     }
     
     function connectToCanvas(){
       var selected = document.getElementById("sessions")
-      window.alert("Byl vybran canvas " + selected.options[selected.selectedIndex].value);
-      //stahneme ajaxem platna ze serveru a zobrazime to, ktere bylo vybrano...
+      localStorage.canvasId = selected.options[selected.selectedIndex].value;
     }
 
     </script>
@@ -47,7 +46,7 @@
 		  <p>Vyberte existující plátno:</p>
 		  <select id="sessions">
       </select>
-      <a href="mainpage.html" onclick="">
+      <a href="mainpage.html" onclick="connectToCanvas();">
         <div id="create-button">
           <p>Připojit</p>
         </div>

@@ -6,7 +6,7 @@
 
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
-    <script type="text/javascript" charset="utf-8" src="js/jsonhttprequest.min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/jsonhttprequest.js"></script>
     <script type="text/javascript">
 
       function inputKeyPressed(e) {
@@ -24,7 +24,7 @@
 
         if (canvasName) {
           var jsonObj = { name: canvasName };
-          JHR.open("POST", address, false);
+          JHR.open("POST", address, true);
 
           JHR.onreadystatechange = function() {
             if (JHR.readyState == 4) {
